@@ -1,9 +1,16 @@
+"use client";
+import status from "daisyui/components/status";
+import { signOut, useSession } from "next-auth/react";
 import { Asset } from "next/font/google";
 import Image from "next/image";
 import Link from "next/link";
 import React from "react";
 
 const NavBar = () => {
+  const { data: session, status } = useSession();
+  if (status === "loading") return null; // or a loading spinner
+
+  console.log(status);
   const navMenu = () => {
     return (
       <>
@@ -58,14 +65,37 @@ const NavBar = () => {
           </ul>
         </div>
         <Link href={"/"} className="text-xl">
-          <Image alt="nav" src={'/assets/logo.svg'} width={107} height={87} />
+          <Image alt="nav" src={"/assets/logo.svg"} width={107} height={87} />
         </Link>
       </div>
       <div className="navbar-center hidden lg:flex">
         <ul className="menu menu-horizontal px-1">{navMenu()}</ul>
       </div>
       <div className="navbar-end">
-        <a className="btn text-primary border-1 border-primary hover:border-none">Appointment</a>
+        <ul className=" menu menu-horizontal text-primary uppercase font-semibold">
+          {status === "authenticated" ? (
+            <>
+              <li>
+                <span>{session?.user?.name || session?.user?.email}</span>
+              </li>
+              <li>
+                <button onClick={() => signOut()}>Logout</button>
+              </li>
+            </>
+          ) : (
+            <>
+              <li>
+                <Link href="/login">Login</Link>
+              </li>
+              <li>
+                <Link href="/signup">SignUp</Link>
+              </li>
+            </>
+          )}
+        </ul>
+        <a className="btn text-primary border-1 border-primary hover:border-none">
+          Appointment
+        </a>
       </div>
     </div>
   );
