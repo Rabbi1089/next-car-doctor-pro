@@ -1,12 +1,13 @@
 "use client";
 import status from "daisyui/components/status";
 import { signOut, useSession } from "next-auth/react";
-import { Asset } from "next/font/google";
 import Image from "next/image";
 import Link from "next/link";
 import React from "react";
 
 const NavBar = () => {
+  //const sessionDetails = useSession();
+  //console.log(sessionDetails);
   const { data: session, status } = useSession();
   if (status === "loading") return null; // or a loading spinner
 
@@ -77,6 +78,11 @@ const NavBar = () => {
             <>
               <li>
                 <span>{session?.user?.name || session?.user?.email}</span>
+              </li>
+              <li>
+                <span>
+                  <Image src={session?.user?.image} width={30} height={30}  alt="google-image"/>
+                </span>
               </li>
               <li>
                 <button onClick={() => signOut()}>Logout</button>

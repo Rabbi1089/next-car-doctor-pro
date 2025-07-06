@@ -1,5 +1,5 @@
 "use client";
-import React, { useEffect } from "react";
+import React from "react";
 
 import { signIn } from "next-auth/react";
 import { useRouter } from "next/navigation";
@@ -18,9 +18,10 @@ const LoginFrom = () => {
     const res = await signIn("credentials", {
       email,
       password,
+      callbackUrl: "/",
       redirect: false,
     });
-
+    console.log(res);
     if (res?.ok) {
       router.push("/");
       toast.success("Successfully Logged in!");
@@ -30,8 +31,8 @@ const LoginFrom = () => {
     }
   };
   return (
-    <form onSubmit={handleLogin} action="">
-      <div className="border-2  border-white p-12 shadow-2xl">
+    <div className="border-2  border-white p-12 shadow-2xl">
+      <form onSubmit={handleLogin} action="">
         <h6 className=" text-3xl font-semibold text-center mb-4">Sign In</h6>
         <label htmlFor="email">Email</label>
         <input
@@ -54,10 +55,10 @@ const LoginFrom = () => {
           Login
         </button>
         <br />
-        {/* social sign in  */}
-        <SocialSignin />
-      </div>
-    </form>
+      </form>{" "}
+      {/* social sign in  */}
+      <SocialSignin />
+    </div>
   );
 };
 
