@@ -1,5 +1,4 @@
 "use client";
-import status from "daisyui/components/status";
 import { signOut, useSession } from "next-auth/react";
 import Image from "next/image";
 import Link from "next/link";
@@ -33,6 +32,9 @@ const NavBar = () => {
 
         <li>
           <Link href={"/"}>Contact</Link>
+        </li>
+        <li>
+          <Link href={"/myBooking"}>Booking</Link>
         </li>
       </>
     );
@@ -81,7 +83,7 @@ const NavBar = () => {
               </li>
               <li>
                 <span>
-                  <Image src={session?.user?.image} width={30} height={30}  alt="google-image"/>
+                  <Image src={session?.user?.image || "https://i.ibb.co/XZvmBtpv/Default-Profile-Picture-PNG-Free-Download.png"} width={30} height={30}  alt="google-image"/>
                 </span>
               </li>
               <li>

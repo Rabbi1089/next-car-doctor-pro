@@ -15,7 +15,8 @@ export default async function ServiceSectiom() {
         >
           <div className="card bg-base-100 w-96 shadow-sm mx-auto">
             <figure className=" w-full h-full object-fit">
-              <img src={item.img} width={314} height={108} alt="Shoes" />
+            {item?.img ?    <img src={item.img} width={314} height={108} alt="Shoes" /> : <h1>Hello</h1> }
+           
             </figure>
             <div className="card-body">
               <h1 className="card-title">
