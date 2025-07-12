@@ -10,7 +10,7 @@ import { useRouter } from "next/navigation";
 const SocialSignin = () => {
   const router = useRouter();
   const handleSocialLogin = (provider) => {
-    console.log("social login ", provider);
+    //console.log("social login ", provider);
     signIn(provider, {
       callbackUrl: "/",
     });

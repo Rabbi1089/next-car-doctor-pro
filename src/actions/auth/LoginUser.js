@@ -6,7 +6,7 @@ const LoginUser = async (payload) => {
   const { email, password } = payload;
   const userCollection = dbConnect(collectionNameObj.userCollection);
   const user = await userCollection.findOne({ email });
-  console.log("from login user", user);
+  //console.log("from login user", user);
   if (!user) {
     return null;
   }

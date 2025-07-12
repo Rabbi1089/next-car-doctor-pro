@@ -1,29 +1,22 @@
-"use client";
-import React, { useEffect, useState } from "react";
+//"use client";
+
 import AllBooking from "../login/components/table/AllBooking";
+import { headers } from "next/headers";
 
-function mmyBookingPage() {
-  const [data, setData] = useState([]);
-  useEffect(() => {
-    const fetchBooking = async () => {
-      try {
-        const res = await fetch("http://localhost:3000/api/service");
-        const d = await res.json();
-        console.log("from fetchBooking", d);
-        setData(d);
-      } catch (error) {
-        console.error("Error fetching data:", error);
-      }
-    };
+const fetchMyBooking = async () => {
+  const res = await fetch("http://localhost:3000/api/service", {
+    headers: headers(),
+  });
+  const data = await res.json();
+  return data;
+};
 
-    fetchBooking(); // ✅ call the function here
-  
-  }, []);
+export default async function mmyBookingPage() {
+  const data = await fetchMyBooking();
+
   return (
     <div>
-      <AllBooking data={data}/>
+      <AllBooking data={data} />
     </div>
   );
 }
-
-export default mmyBookingPage;

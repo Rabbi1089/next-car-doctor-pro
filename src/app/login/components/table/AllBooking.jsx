@@ -1,4 +1,8 @@
+import DeleteBookingButton from "@/app/myBooking/components/DeleteBookingButton";
+import { FaEdit } from "react-icons/fa";
+
 import React from "react";
+import Link from "next/link";
 
 const AllBooking = ({ data }) => {
   return (
@@ -39,8 +43,14 @@ const AllBooking = ({ data }) => {
                   <td>{item.service_name}</td>
                   <td>{item.date}</td>
                   <td>{item.service_price}</td>
-                  <th>
-                    <button className="btn btn-ghost btn-xs">details</button>
+                  <th className="font-bold text-3xl">
+                    <div className=" flex justify-center space-x-4">
+                      {" "}
+                      <Link href={`/myBooking/${item._id}`}>
+                        <FaEdit />
+                      </Link>
+                      <DeleteBookingButton id={item._id} />
+                    </div>
                   </th>
                 </tr>
               );
