@@ -5,36 +5,41 @@ import { useSession } from "next-auth/react";
 import { useRouter } from "next/navigation";
 
 const EditBookingForm = ({ data }) => {
+  console.log("EditBookingForm ==========>", data);
   const { data: session } = useSession();
-  const router = useRouter()
-  console.log("form update data ", data);
-  const handleBookService = async (e) => {
+  const router = useRouter();
+
+  const handleUpdateService = async (e) => {
     e.preventDefault();
     const form = e.target;
     const date = form.date.value;
     const phone = form.phone.value;
     const address = form.address.value;
     const bookingPayload = {
-     // customerName: name,
-     // email,
+      // customerName: name,
+      // email,
       date,
       phone,
       address,
 
       //extra information
 
-     // service_id: data._id,
-    //  service_name: data.title,
-    //  service_img: data.img,
-    //  service_price: data.price,
+      // service_id: data._id,
+      //  service_name: data.title,
+      //  service_img: data.img,
+      //  service_price: data.price,
     };
-    console.log('booking payload' , bookingPayload);
-    const res = await fetch(`http://localhost:3000/api/my-booking/${data.service_id}` ,{
-      method: "PATCH",
-      body: JSON.stringify(bookingPayload),
-    });
+    console.log("form update data ", bookingPayload);
+
+    const res = await fetch(
+      `http://localhost:3000/api/my-booking/${data.service_id}`,
+      {
+        method: "PATCH",
+        body: JSON.stringify(bookingPayload),
+      }
+    );
     const postedResponse = await res.json();
-    router.push("myBooking")
+    router.push("/myBooking");
     console.log("Updated Data response", postedResponse);
   };
   return (
@@ -43,7 +48,7 @@ const EditBookingForm = ({ data }) => {
         Update Book Service : {data.service_name}
       </h2>
       <div className="max-w-8xl mx-auto my-12 bg-slate-300 p-8 rounded-lg">
-        <form onSubmit={handleBookService}>
+        <form onSubmit={handleUpdateService}>
           <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
             <div className="form-control col-span-1">
               <label className="label">
@@ -128,7 +133,7 @@ const EditBookingForm = ({ data }) => {
             <input
               className="btn bg-red-600 hover:bg-red-700 text-white font-bold w-full"
               type="submit"
-              value="Order Confirm"
+              value="Update Order"
             />
           </div>
         </form>
