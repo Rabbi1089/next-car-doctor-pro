@@ -4,7 +4,7 @@ import { getServerSession } from "next-auth";
 import { NextResponse } from "next/server";
 
 export const GET = async (req) => {
-  const session = await getServerSession({ req, ...authOptions }); // ✅ Correct
+  const session = await getServerSession({ req, ...authOptions });
   //console.log("Session: is----------->", session);
 
   if (!session) {

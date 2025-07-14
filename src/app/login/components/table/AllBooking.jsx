@@ -16,6 +16,7 @@ const AllBooking = ({ data }) => {
               <th>Service Name</th>
               <th>Service Date</th>
               <th>Service Price</th>
+              <th>Address</th>
               <th>Actions</th>
             </tr>
           </thead>
@@ -43,6 +44,7 @@ const AllBooking = ({ data }) => {
                   <td>{item.service_name}</td>
                   <td>{item.date}</td>
                   <td>{item.service_price}</td>
+                  <td>{item.address}</td>
                   <th className="font-bold text-3xl">
                     <div className=" flex justify-center space-x-4">
                       {" "}

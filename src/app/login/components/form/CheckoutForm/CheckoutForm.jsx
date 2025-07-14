@@ -2,10 +2,12 @@
 import React from "react";
 import Image from "next/image";
 import { useSession } from "next-auth/react";
+import { useRouter } from "next/navigation";
 
 const CheckoutForm = ({ data }) => {
+  const router = useRouter();
   const { data: session } = useSession();
- // console.log(" session is ", session);
+  // console.log(" session is ", session);
   const handleBookService = async (e) => {
     e.preventDefault();
     const form = e.target;
@@ -34,7 +36,9 @@ const CheckoutForm = ({ data }) => {
       body: JSON.stringify(bookingPayload),
     });
     const postedResponse = await res.json();
-    console.log("posted Data response", postedResponse);
+    if (postedResponse) {
+      router.push("/myBooking");
+    }
   };
   return (
     <div className="container mx-auto">

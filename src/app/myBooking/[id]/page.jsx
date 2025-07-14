@@ -1,12 +1,13 @@
 import React from "react";
 import EditBookingForm from "../components/EditBookingForm/EditBookingForm";
+import { headers } from "next/headers";
 
 async function UpdateBookingForm({ params }) {
   const p = await params;
-console.log("UpdateBookingForm ====" , p.id);
   try {
     const res = await fetch(`http://localhost:3000/api/my-booking/${p.id}`, {
       cache: "no-store",
+      headers:await headers()
     });
 
     if (!res.ok) {
