@@ -5,9 +5,11 @@ import { headers } from "next/headers";
 async function UpdateBookingForm({ params }) {
   const p = await params;
   try {
-    const res = await fetch(`http://localhost:3000/api/my-booking/${p.id}`, {
+    const res = await fetch(`https://next-car-doctor-tan.vercel.app/api/my-booking/${p.id}`, {
       cache: "no-store",
-      headers:await headers()
+     headers:new Headers (await headers())
+ 
+
     });
 
     if (!res.ok) {

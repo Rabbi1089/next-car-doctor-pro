@@ -7,8 +7,13 @@ export async function middleware(req) {
   if (token) {
     return NextResponse.next();
   }
-  return NextResponse.redirect(new URL("/login", req.nextUrl));
+  const loginUrl = req.nextUrl.clone();
+  loginUrl.pathname = "/login";
+
+return NextResponse.redirect(loginUrl);
+
 }
 export const config = {
+  // matcher: ["/checkout/:path*"],
   matcher: ["/myBooking", "/myBooking/:path*", "/checkout/:path*"],
 };

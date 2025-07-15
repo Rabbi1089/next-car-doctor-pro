@@ -32,7 +32,7 @@ const EditBookingForm = ({ data }) => {
     console.log("form update data ", bookingPayload);
 
     const res = await fetch(
-      `http://localhost:3000/api/my-booking/${data._id}`,
+      `https://next-car-doctor-tan.vercel.app/api/my-booking/${data._id}`,
       {
         method: "PATCH",
         body: JSON.stringify(bookingPayload),

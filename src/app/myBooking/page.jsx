@@ -4,9 +4,9 @@ import AllBooking from "../login/components/table/AllBooking";
 import { headers } from "next/headers";
 
 const fetchMyBooking = async () => {
-   const h = await headers();
-  const res = await fetch("http://localhost:3000/api/service", {
-    headers: h,
+  
+  const res = await fetch("https://next-car-doctor-tan.vercel.app/api/service", {
+    headers:new Headers (await headers())
   });
   const data = await res.json();
   return data;

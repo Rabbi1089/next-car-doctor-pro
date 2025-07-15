@@ -7,7 +7,7 @@ import { MdDeleteSweep } from "react-icons/md";
 const DeleteBookingButton = ({ id }) => {
   const router = useRouter();
   const handleDelete = async (id) => {
-    const res = await fetch(`http://localhost:3000/api/service/${id}`, {
+    const res = await fetch(`https://next-car-doctor-tan.vercel.app/api/service/${id}`, {
       method: "DELETE",
     });
     const data = await res.json();

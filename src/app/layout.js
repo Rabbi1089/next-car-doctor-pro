@@ -3,6 +3,7 @@ import "./globals.css";
 import NavBar from "@/components/NavBar";
 import { Toaster } from "react-hot-toast";
 import NextAuthProvider from "@/Providers/NextAuthProvider";
+import RouteChangeLoader from "@/components/RouteChangeLoader";
 
 const geistSans = Geist({
   variable: "--font-geist-sans",
@@ -28,6 +29,7 @@ export default function RootLayout({ children }) {
         <NextAuthProvider>
           <NavBar />
           <Toaster />
+           <RouteChangeLoader />
           {children}
         </NextAuthProvider>
       </body>

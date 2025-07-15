@@ -5,11 +5,12 @@ export const collectionNameObj = {
   serviceCollection: "services",
   userCollection: "testUser",
   bookingCollection: "bookedService",
-
 };
 
 export default function dbConnect(collectionName) {
-  const uri = process.env.NEXT_PUBLIC_MongoDB_URI;
+  const uri = process.env.NEXT_PUBLIC_MongoDB_URI
+  
+  //const uri = process.env.NEXT_PUBLIC_MongoDB_URI;
   // Create a MongoClient with a MongoClientOptions object to set the Stable API version
   const client = new MongoClient(uri, {
     serverApi: {

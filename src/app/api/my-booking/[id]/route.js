@@ -1,59 +1,55 @@
-import { authOptions } from "@/lib/authOptions";
+import { getToken } from "next-auth/jwt";
 import dbConnect, { collectionNameObj } from "@/lib/dbConnect";
 import { ObjectId } from "mongodb";
-import { getServerSession } from "next-auth";
 import { NextResponse } from "next/server";
 
 export const GET = async (req, { params }) => {
-  const p = await params;
+  try {
+    const token = await getToken({ req, secret: process.env.NEXTAUTH_SECRET });
+    if (!token) return NextResponse.json({ message: "Unauthorized" }, { status: 401 });
 
-  const bookingCollection = dbConnect(collectionNameObj.bookingCollection);
-  const query = { _id: new ObjectId(p.id) };
-  const singleBooking = await bookingCollection.findOne(query);
-  //check validation
-  const session = await getServerSession({ req, ...authOptions });
-  const email = session?.user?.email;
-  if (email === singleBooking?.email) {
-    return NextResponse.json(singleBooking);
-  } else {
-    return NextResponse.json(
-      { message: "forbidden update action" },
-      { status: 403 }
-    );
+    const bookingCollection = await dbConnect(collectionNameObj.bookingCollection);
+    const booking = await bookingCollection.findOne({
+      _id: new ObjectId(params.id),
+    });
+
+    if (!booking) return NextResponse.json({ message: "Not found" }, { status: 404 });
+
+    if (booking.email !== token.email) {
+      return NextResponse.json({ message: "Forbidden" }, { status: 403 });
+    }
+
+    return NextResponse.json(booking);
+  } catch (err) {
+    console.error("GET booking error:", err);
+    return NextResponse.json({ message: "Server error" }, { status: 500 });
   }
 };
 
 export const PATCH = async (req, { params }) => {
-  const p = await params;
+  try {
+    const token = await getToken({ req, secret: process.env.NEXTAUTH_SECRET });
+    if (!token) return NextResponse.json({ message: "Unauthorized" }, { status: 401 });
 
-  const bookingCollection = dbConnect(collectionNameObj.bookingCollection);
-  const query = { _id: new ObjectId(p.id) };
+    const bookingCollection = await dbConnect(collectionNameObj.bookingCollection);
+    const query = { _id: new ObjectId(params.id) };
+    const currentBooking = await bookingCollection.findOne(query);
 
-  //check validation
-  const session = await getServerSession({ req, ...authOptions });
-  const email = session?.user?.email;
-  const currentBookingData = await bookingCollection.findOne(query);
+    if (!currentBooking) return NextResponse.json({ message: "Not found" }, { status: 404 });
 
-  if (email === currentBookingData?.email) {
+    if (currentBooking.email !== token.email) {
+      return NextResponse.json({ message: "Forbidden" }, { status: 403 });
+    }
+
     const body = await req.json();
 
-    const filter = {
-      $set: { ...body },
-    };
-    const option = {
-      upsert: true,
-    };
+    const updateResponse = await bookingCollection.updateOne(query, {
+      $set: body,
+    });
 
-    const updateResponse = await bookingCollection.updateOne(
-      query,
-      filter,
-      option
-    );
     return NextResponse.json(updateResponse);
-  } else {
-    return NextResponse.json(
-      { message: "forbidden update action" },
-      { status: 403 }
-    );
+  } catch (err) {
+    console.error("PATCH booking error:", err);
+    return NextResponse.json({ message: "Server error" }, { status: 500 });
   }
 };

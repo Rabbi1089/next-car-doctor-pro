@@ -7,7 +7,7 @@ import { useRouter } from "next/navigation";
 const CheckoutForm = ({ data }) => {
   const router = useRouter();
   const { data: session } = useSession();
-  // console.log(" session is ", session);
+  console.log(" session is ", session);
   const handleBookService = async (e) => {
     e.preventDefault();
     const form = e.target;
@@ -31,7 +31,7 @@ const CheckoutForm = ({ data }) => {
       service_price: data.price,
     };
     console.log(bookingPayload);
-    const res = await fetch("http://localhost:3000/api/service", {
+    const res = await fetch("https://next-car-doctor-tan.vercel.app/api/service", {
       method: "post",
       body: JSON.stringify(bookingPayload),
     });
